@@ -11,6 +11,16 @@ class TestCase extends Orchestra
     public function setUp(): void
     {
         parent::setUp();
+
+        $this->clearCache();
+
+        $this->loadMigrationsFrom(__DIR__.'/stubs/database/migrations');
+        $this->artisan('migrate', ['--database' => 'sqlite']);
+
+        Factory::guessFactoryNamesUsing(
+            fn (string $modelName) => 'Juampi92\\LaravelQueryCache\\Tests\\stubs\\database\\factories\\'.class_basename($modelName).'Factory'
+        );
+
     }
 
     protected function getPackageProviders($app)
@@ -28,5 +38,18 @@ class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set(
+            'cache.driver', getenv('CACHE_DRIVER') ?: env('CACHE_DRIVER', 'array')
+        );
+    }
+
+    /**
+     * Clear the cache.
+     *
+     * @return void
+     */
+    protected function clearCache()
+    {
+        $this->artisan('cache:clear');
     }
 }
