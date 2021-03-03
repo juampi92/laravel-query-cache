@@ -13,7 +13,7 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
         $this->registerBaseMacro();
 
         foreach ($this->getCustomTimes() as $macroName => $ttl) {
-            $this->registerCustomMacro($ttl, $macroName);
+            $this->registerCustomMacro($macroName, $ttl);
         }
     }
 
@@ -29,11 +29,11 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
 
     private function registerBaseMacro(): void
     {
-        QueryBuilder::macro('cache', function ($name, $ttl) {
+        QueryBuilder::macro('cache', function ($name, $ttl = null) {
             /** @var QueryBuilder $this */
             return new CacheHighOrderFunction($name, $ttl, $this);
         });
-        EloquentBuilder::macro('cache', function ($name, $ttl) {
+        EloquentBuilder::macro('cache', function ($name, $ttl = null) {
             /** @var EloquentBuilder $this */
             return new CacheHighOrderFunction($name, $ttl, $this);
         });
@@ -44,7 +44,7 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
      * @param  string  $macroName
      * @param $ttl
      */
-    private function registerCustomMacro(string $macroName, $ttl): void
+    private function registerCustomMacro(string $macroName, $ttl = null): void
     {
         QueryBuilder::macro($macroName, function ($name) use ($ttl) {
             /** @var QueryBuilder $this */
