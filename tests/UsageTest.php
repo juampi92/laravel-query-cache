@@ -2,7 +2,6 @@
 
 namespace Juampi92\LaravelQueryCache\Tests;
 
-use Illuminate\Support\Facades\Cache;
 use Juampi92\LaravelQueryCache\Tests\stubs\Post;
 
 class UsageTest extends TestCase

@@ -3,8 +3,8 @@
 namespace Juampi92\LaravelQueryCache\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Juampi92\LaravelQueryCache\LaravelQueryCacheServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
@@ -20,7 +20,6 @@ class TestCase extends Orchestra
         Factory::guessFactoryNamesUsing(
             fn (string $modelName) => 'Juampi92\\LaravelQueryCache\\Tests\\stubs\\database\\factories\\'.class_basename($modelName).'Factory'
         );
-
     }
 
     protected function getPackageProviders($app)
@@ -39,7 +38,8 @@ class TestCase extends Orchestra
             'prefix' => '',
         ]);
         $app['config']->set(
-            'cache.driver', getenv('CACHE_DRIVER') ?: env('CACHE_DRIVER', 'array')
+            'cache.driver',
+            getenv('CACHE_DRIVER') ?: env('CACHE_DRIVER', 'array')
         );
     }
 

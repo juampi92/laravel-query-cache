@@ -30,7 +30,7 @@ class CacheHighOrderFunction
 
     public function __call($method, $arguments)
     {
-        if (!$this->ttl) {
+        if (! $this->ttl) {
             return Cache::rememberForever(
                 $this->key,
                 fn () => $this->callQuery($method, $arguments)

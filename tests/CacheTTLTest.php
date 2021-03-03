@@ -15,6 +15,7 @@ class CacheTTLTest extends TestCase
             ->withArgs(function ($name, $ttl) {
                 $this->assertEquals('post:count', $name);
                 $this->assertEquals(60, $ttl);
+
                 return true;
             });
 
@@ -30,6 +31,7 @@ class CacheTTLTest extends TestCase
             ->withArgs(function ($name, $ttl) {
                 $this->assertEquals('post:count', $name);
                 $this->assertEquals(60 * 60, $ttl);
+
                 return true;
             });
 
@@ -45,6 +47,7 @@ class CacheTTLTest extends TestCase
             ->withArgs(function ($name, $ttl) {
                 $this->assertEquals('post:count', $name);
                 $this->assertEquals(60 * 60 * 24, $ttl);
+
                 return true;
             });
 
@@ -60,6 +63,7 @@ class CacheTTLTest extends TestCase
             ->withArgs(function ($name, $ttl) {
                 $this->assertEquals('post:count', $name);
                 $this->assertEquals(60 * 60 * 24 * 7, $ttl);
+
                 return true;
             });
 
@@ -75,6 +79,7 @@ class CacheTTLTest extends TestCase
             ->once()
             ->withArgs(function ($name) {
                 $this->assertEquals('post:count:44', $name);
+
                 return true;
             });
 
