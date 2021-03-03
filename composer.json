@@ -1,39 +1,39 @@
 {
-    "name": ":vendor_name/:package_name",
-    "description": ":package_description",
+    "name": "juampi92/laravel-query-cache",
+    "description": "Provide easy interface for caching laravel queries",
     "keywords": [
-        ":vendor_name",
-        ":package_name"
+        "juampi92",
+        "laravel-query-cache"
     ],
-    "homepage": "https://github.com/:vendor_name/:package_name",
+    "homepage": "https://github.com/juampi92/laravel-query-cache",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": ":author_email",
-            "role": "Developer"
+            "name": "Juan Pablo Barreto",
+            "email": "juampi92@gmail.com"
         }
     ],
     "require": {
-        "php": "^8.0",
-        "spatie/laravel-package-tools": "^1.1",
-        "illuminate/contracts": "^8.0"
+        "php": "^7.4",
+        "illuminate/cache": "^8.0",
+        "illuminate/contracts": "^8.0",
+        "illuminate/database": "^8.0",
+        "illuminate/support": "^8.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",
         "phpunit/phpunit": "^9.3",
-        "spatie/laravel-ray": "^1.9",
         "vimeo/psalm": "^4.4"
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\Skeleton\\": "src",
-            "Spatie\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Juampi92\\LaravelQueryCache\\": "src",
+            "Juampi92\\LaravelQueryCache\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Spatie\\Skeleton\\Tests\\": "tests"
+            "Juampi92\\LaravelQueryCache\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -47,10 +47,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\Skeleton\\SkeletonServiceProvider"
+                "Juampi92\\LaravelQueryCache\\LaravelQueryCacheServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "Spatie\\Skeleton\\SkeletonFacade"
+                "LaravelQueryCache": "Juampi92\\LaravelQueryCache\\LaravelQueryCacheFacade"
             }
         }
     },

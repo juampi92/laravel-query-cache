@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Skeleton\Tests;
+namespace Juampi92\LaravelQueryCache\Tests;
 
 class ExampleTest extends TestCase
 {
