@@ -16,7 +16,6 @@
     "require": {
         "php": "^7.4",
         "illuminate/cache": "^8.0",
-        "illuminate/contracts": "^8.0",
         "illuminate/database": "^8.0",
         "illuminate/support": "^8.0"
     },
@@ -27,8 +26,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Juampi92\\LaravelQueryCache\\": "src",
-            "Juampi92\\LaravelQueryCache\\Database\\Factories\\": "database/factories"
+            "Juampi92\\LaravelQueryCache\\": "src"
         }
     },
     "autoload-dev": {
