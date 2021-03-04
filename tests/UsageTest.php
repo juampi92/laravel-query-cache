@@ -13,4 +13,12 @@ class UsageTest extends TestCase
 
         Post::query()->cacheForever('posts:published:count')->whereNotNull('published_at')->count();
     }
+
+    /** @test */
+    public function should_throw_argument_error_when_using_cache_without_ttl()
+    {
+        $this->expectException(\ArgumentCountError::class);
+
+        Post::query()->cache('posts:published:count')->count();
+    }
 }

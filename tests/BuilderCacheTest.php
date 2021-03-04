@@ -3,12 +3,13 @@
 namespace Juampi92\LaravelQueryCache\Tests;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Juampi92\LaravelQueryCache\Tests\stubs\Post;
 
 class BuilderCacheTest extends TestCase
 {
     /** @test */
-    public function should_work_for_simple_queries()
+    public function should_cache_simple_queries()
     {
         // Seed 3 posts
         Post::factory()->count(3)->create();
@@ -39,7 +40,7 @@ class BuilderCacheTest extends TestCase
     }
 
     /** @test */
-    public function should_work_for_complex_queries()
+    public function should_cache_complex_queries()
     {
         // Seed 3 posts
         Post::factory()->published()->count(3)->create();
@@ -67,5 +68,40 @@ class BuilderCacheTest extends TestCase
         $this->assertEmpty((clone $query)->cacheHour('post:juampi92')->get(['id']));
     }
 
+    /** @test */
+    public function should_cache_paginated_results()
+    {
+        Post::factory()->count(10)->create();
 
+        $result = Post::cacheHour('post:paginated')->simplePaginate(5);
+        $cache = Cache::get('post:paginated');
+
+        $this->assertNotNull($cache);
+
+        $this->assertEquals(
+            $cache->first()->id,
+            $result->first()->id
+        );
+
+        $this->assertEquals(
+            $cache->first()->id,
+            $result->first()->id
+        );
+    }
+
+    /** @test */
+    public function should_cache_db_query()
+    {
+        Post::factory()->count(5)->create();
+
+        $result = DB::table('posts')
+            ->cacheHour('post:count')
+            ->count();
+        $cache = Cache::get('post:count');
+
+        $this->assertNotNull($cache);
+
+        $this->assertEquals(5, $cache);
+        $this->assertEquals($result, $cache);
+    }
 }
