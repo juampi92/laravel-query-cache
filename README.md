@@ -5,7 +5,13 @@
 [![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/juampi92/laravel-query-cache/Check%20&%20fix%20styling?label=code%20style)](https://github.com/juampi92/laravel-query-cache/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/juampi92/laravel-query-cache.svg?style=flat-square)](https://packagist.org/packages/juampi92/laravel-query-cache)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+This package provides a set of macros to cache your Laravel Queries just like Cache::remember.
+
+```php
+$postCount = Post::published()
+    ->cacheDay('post:count')
+    ->count();
+```
 
 ## Installation
 
@@ -15,31 +21,101 @@ You can install the package via composer:
 composer require juampi92/laravel-query-cache
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="juampi92\LaravelQueryCache\LaravelQueryCacheServiceProvider" --tag="laravel-query-cache-migrations"
-php artisan migrate
-```
-
-You can publish the config file with:
-```bash
-php artisan vendor:publish --provider="Juampi92\LaravelQueryCache\LaravelQueryCacheServiceProvider" --tag="laravel-query-cache-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
 ## Usage
 
+Instead of doing:
+
 ```php
-$laravel-query-cache = new Juampi92\LaravelQueryCache();
-echo $laravel-query-cache->echoPhrase('Hello, Juampi92!');
+Cache::remember('post:count', $ttl, () => Post::published()->count());
 ```
+
+You now do:
+
+```php
+Post::published()->cache('post:count', $ttl)->count();
+```
+
+You can use it in Eloquent Queries as well as in normal Queries.
+
+```php
+DB::table('posts')
+    ->whereNotNull('published_at')
+    ->cacheHour('post:count')
+    ->count();
+
+Posts::published()
+    ->cacheHour('post:count')
+    ->count();
+```
+
+List of macros:
+
+```php
+Post::cache('post:count', $ttl)->count();
+Post::cacheMinute('post:count')->count();
+Post::cacheHour('post:count')->count();
+Post::cacheDay('post:count')->count();
+Post::cacheWeek('post:count')->count();
+Post::cacheForever('post:count')->count();
+```
+
+## Advanced usage
+
+### Tags
+
+```php
+Post::query()
+    ->where(...)
+    ->cache('post:count')->tags(['posts'])
+    ->count();
+```
+
+### Different store
+
+```php
+Post::query()
+    ->where(...)
+    ->cache('post:count')->store('redis')
+    ->count();
+```
+
+### Add your custom cache duration
+
+This is maybe more advanced, but you can do so by [opting out of discovery](https://laravel.com/docs/8.x/packages#opting-out-of-package-discovery), and then importing it yourself:
+
+```php
+use Juampi92\LaravelQueryCache\LaravelQueryCacheServiceProvider as BaseServiceProvider;
+
+class LaravelQueryCacheServiceProvider extends BaseServiceProvider
+{
+    protected function getCustomTimes(): array
+    {
+        return array_merge(
+            parent::getCustomTimes(),
+            [
+                'rememberForever' => null,
+                'cacheFifteenMinutes' => 60 * 15,
+            ]
+        );
+    }
+}
+```
+
+The original method has
+```php
+[
+    'cacheForever' => null,
+    'cacheMinute' => 60,
+    'cacheHour' => 60 * 60,
+    'cacheDay' => 60 * 60 * 24,
+    'cacheWeek' => 60 * 60 * 24 * 7,
+]
+```
+
+## Disclaimer
+
+This package is supposed to be a nice integration of Cache remember inside the Query Builder.
+If you're looking for a advanced eloquent specific cache, I recommend to check out [laravel-eloquent-query-cache](https://github.com/renoki-co/laravel-eloquent-query-cache).
 
 ## Testing
 
