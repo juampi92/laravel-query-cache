@@ -11,6 +11,6 @@ class UsageTest extends TestCase
     {
         $this->expectException(\RuntimeException::class);
 
-        Post::query()->cache('posts:published:count')->whereNotNull('published_at')->count();
+        Post::query()->cacheForever('posts:published:count')->whereNotNull('published_at')->count();
     }
 }

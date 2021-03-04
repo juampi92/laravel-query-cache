@@ -7,6 +7,13 @@ use Juampi92\LaravelQueryCache\Tests\stubs\Post;
 
 class CacheTTLTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        Cache::shouldReceive('store')->andReturnSelf();
+    }
+
     /** @test */
     public function should_cache_for_a_minute()
     {
@@ -83,6 +90,6 @@ class CacheTTLTest extends TestCase
                 return true;
             });
 
-        Post::cache('post:count:44')->count();
+        Post::cacheForever('post:count:44')->count();
     }
 }

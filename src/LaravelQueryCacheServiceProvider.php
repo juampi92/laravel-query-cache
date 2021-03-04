@@ -5,10 +5,11 @@ namespace Juampi92\LaravelQueryCache;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\ServiceProvider;
+use Juampi92\LaravelQueryCache\Macros\CacheMacro;
 
 class LaravelQueryCacheServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function register()
     {
         $this->registerBaseMacro();
 
@@ -20,6 +21,7 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
     protected function getCustomTimes(): array
     {
         return [
+            'cacheForever' => null,
             'cacheMinute' => 60,
             'cacheHour' => 60 * 60,
             'cacheDay' => 60 * 60 * 24,
@@ -29,14 +31,8 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
 
     private function registerBaseMacro(): void
     {
-        QueryBuilder::macro('cache', function ($name, $ttl = null) {
-            /** @var QueryBuilder $this */
-            return new CacheHighOrderFunction($name, $ttl, $this);
-        });
-        EloquentBuilder::macro('cache', function ($name, $ttl = null) {
-            /** @var EloquentBuilder $this */
-            return new CacheHighOrderFunction($name, $ttl, $this);
-        });
+        QueryBuilder::macro('cache', call_user_func(new CacheMacro));
+        EloquentBuilder::macro('cache', call_user_func(new CacheMacro));
     }
 
     /**
@@ -46,13 +42,7 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
      */
     private function registerCustomMacro(string $macroName, $ttl = null): void
     {
-        QueryBuilder::macro($macroName, function ($name) use ($ttl) {
-            /** @var QueryBuilder $this */
-            return new CacheHighOrderFunction($name, $ttl, $this);
-        });
-        EloquentBuilder::macro($macroName, function ($name) use ($ttl) {
-            /** @var EloquentBuilder $this */
-            return new CacheHighOrderFunction($name, $ttl, $this);
-        });
+        QueryBuilder::macro($macroName, CacheMacro::customTTL($ttl));
+        EloquentBuilder::macro($macroName, CacheMacro::customTTL($ttl));
     }
 }

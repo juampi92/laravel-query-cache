@@ -38,6 +38,7 @@ class BuilderCacheTest extends TestCase
         );
     }
 
+    /** @test */
     public function should_work_for_complex_queries()
     {
         // Seed 3 posts
@@ -47,7 +48,7 @@ class BuilderCacheTest extends TestCase
         $query = Post::writtenBy('juampi92')->published();
 
         // Get and cache some rows.
-        $result = (clone $query)->cache('post:juampi92')->get(['id']);
+        $result = (clone $query)->cacheHour('post:juampi92')->get(['id']);
         $this->assertCount(3, $result);
 
         // Delete all posts and assert they were deleted.
@@ -57,15 +58,14 @@ class BuilderCacheTest extends TestCase
         // Assert the cache still holds the previous data.
         $this->assertEquals(
             $result,
-            (clone $query)->cache('post:juampi92')->get(['id'])
+            (clone $query)->cacheHour('post:juampi92')->get(['id'])
         );
 
         Cache::flush();
 
         // After flushing the cache, then it resets.
-        $this->assertCount(
-            0,
-            (clone $query)->cache('post:juampi92')->get(['id'])
-        );
+        $this->assertEmpty((clone $query)->cacheHour('post:juampi92')->get(['id']));
     }
+
+
 }
