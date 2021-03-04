@@ -20,7 +20,7 @@ class CacheMacro
          * @return CacheHighOrderFunction
          */
         return function (string $key, $ttl = null): CacheHighOrderFunction {
-            if (!$ttl) {
+            if (! $ttl) {
                 throw new ArgumentCountError(
                     'Too few arguments to function cache(), $ttl was missing. For fixed-length cache times, use `cacheForever`, `cacheMinute`, `cacheHour`, `cacheDay`, `cacheWeek`'
                 );

@@ -2,7 +2,6 @@
 
 namespace Juampi92\LaravelQueryCache;
 
-use Illuminate\Cache\TaggableStore;
 use Illuminate\Cache\TaggedCache;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
@@ -41,12 +40,14 @@ class CacheHighOrderFunction
     public function store(string $name): self
     {
         $this->cache = Cache::store($name);
+
         return $this;
     }
 
     public function tags(array $names): self
     {
         $this->tags = $names;
+
         return $this;
     }
 
