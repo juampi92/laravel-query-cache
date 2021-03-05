@@ -1,10 +1,7 @@
 {
     "name": "juampi92/laravel-query-cache",
     "description": "Provide easy interface for caching laravel queries",
-    "keywords": [
-        "juampi92",
-        "laravel-query-cache"
-    ],
+    "keywords": ["laravel", "cache", "query", "queries", "remember"],
     "homepage": "https://github.com/juampi92/laravel-query-cache",
     "license": "MIT",
     "authors": [
@@ -14,12 +11,13 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": ">=7.4",
         "illuminate/cache": "^8.0",
         "illuminate/database": "^8.0",
         "illuminate/support": "^8.0"
     },
     "require-dev": {
+        "mockery/mockery": "^1.4.2",
         "orchestra/testbench": "^6.0",
         "phpunit/phpunit": "^9.3",
         "vimeo/psalm": "^4.4"
