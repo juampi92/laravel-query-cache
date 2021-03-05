@@ -1,4 +1,4 @@
-# Provide easy interface for caching laravel queries
+# Laravel Query Cache
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juampi92/laravel-query-cache.svg?style=flat-square)](https://packagist.org/packages/juampi92/laravel-query-cache)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/juampi92/laravel-query-cache/run-tests?label=tests)](https://github.com/juampi92/laravel-query-cache/actions?query=workflow%3ATests+branch%3Amaster)
@@ -8,9 +8,9 @@
 This package provides a set of macros to cache your Laravel Queries just like Cache::remember.
 
 ```php
-$postCount = Post::published()
-    ->cacheDay('post:count')
-    ->count();
+$featuredPost = Post::published()->orderByMostViews()
+    ->cacheDay('post:featured') // <- Here
+    ->first();
 ```
 
 ## Installation
@@ -20,6 +20,8 @@ You can install the package via composer:
 ```bash
 composer require juampi92/laravel-query-cache
 ```
+
+That's it! No config or Trait necessary. The package auto-discovery will boot the macros.
 
 ## Usage
 
@@ -40,8 +42,9 @@ You can use it in Eloquent Queries as well as in normal Queries.
 ```php
 DB::table('posts')
     ->whereNotNull('published_at')
-    ->cacheHour('post:count')
-    ->count();
+    ->latest()
+    ->cacheHour('post:latest')
+    ->first();
 
 Posts::published()
     ->cacheHour('post:count')
@@ -51,12 +54,12 @@ Posts::published()
 List of macros:
 
 ```php
-Post::cache('post:count', $ttl)->count();
-Post::cacheMinute('post:count')->count();
-Post::cacheHour('post:count')->count();
-Post::cacheDay('post:count')->count();
-Post::cacheWeek('post:count')->count();
-Post::cacheForever('post:count')->count();
+Post::cache('cache:key', $ttl)->get();
+Post::cacheMinute('cache:key')->first();
+Post::cacheHour('cache:key')->pluck('id');
+Post::cacheDay("cache:key:$id")->find($id);
+Post::cacheWeek('cache:key:paginate:10')->paginate(10);
+Post::cacheForever('cache:key')->count();
 ```
 
 ## Advanced usage
