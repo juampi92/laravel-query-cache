@@ -3,6 +3,7 @@
 namespace Juampi92\LaravelQueryCache\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Cache;
 use Juampi92\LaravelQueryCache\LaravelQueryCacheServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -50,6 +51,6 @@ class TestCase extends Orchestra
      */
     protected function clearCache()
     {
-        $this->artisan('cache:clear');
+        Cache::flush();
     }
 }
