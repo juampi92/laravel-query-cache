@@ -31,8 +31,8 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
 
     private function registerBaseMacro(): void
     {
-        QueryBuilder::macro('cache', call_user_func(new CacheMacro));
-        EloquentBuilder::macro('cache', call_user_func(new CacheMacro));
+        QueryBuilder::macro('cache', call_user_func(new CacheMacro()));
+        EloquentBuilder::macro('cache', call_user_func(new CacheMacro()));
     }
 
     /**
