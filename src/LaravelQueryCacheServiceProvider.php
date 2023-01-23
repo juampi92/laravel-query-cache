@@ -18,6 +18,9 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
         }
     }
 
+    /**
+     * @return array<string, \DateTimeInterface|\DateInterval|int|null>
+     */
     protected function getCustomTimes(): array
     {
         return [
@@ -38,7 +41,7 @@ class LaravelQueryCacheServiceProvider extends ServiceProvider
     /**
      * Will register every custom
      * @param  string  $macroName
-     * @param $ttl
+     * @param \DateTimeInterface|\DateInterval|int|null $ttl
      */
     private function registerCustomMacro(string $macroName, $ttl = null): void
     {

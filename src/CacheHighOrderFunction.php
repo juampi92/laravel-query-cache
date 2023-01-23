@@ -7,7 +7,11 @@ use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Cache;
+use RuntimeException;
 
+/**
+ * @mixin EloquentBuilder|QueryBuilder
+ */
 class CacheHighOrderFunction
 {
     private string $key;
@@ -15,8 +19,10 @@ class CacheHighOrderFunction
     /** @var \DateInterval|\DateTimeInterface|int|null */
     private $ttl;
 
+    /** @var EloquentBuilder|QueryBuilder */
     private $query;
 
+    /** @var array<string> */
     private array $tags = [];
 
     /** @var Repository|TaggedCache */
@@ -24,7 +30,7 @@ class CacheHighOrderFunction
 
     /**
      * CachedQueryBuilder constructor.
-     * @param \Illuminate\Database\Query\Builder|\Illuminate\Database\Eloquent\Builder $query
+     * @param EloquentBuilder|QueryBuilder $query
      * @param string $key
      * @param \DateTimeInterface|\DateInterval|int|null $ttl
      */
@@ -44,6 +50,10 @@ class CacheHighOrderFunction
         return $this;
     }
 
+    /**
+     * @param  array<string>  $names
+     * @return $this
+     */
     public function tags(array $names): self
     {
         $this->tags = $names;
@@ -71,12 +81,17 @@ class CacheHighOrderFunction
         );
     }
 
+    /**
+     * @param string $method
+     * @param array<mixed> $arguments
+     * @return mixed
+     */
     private function callQuery($method, $arguments)
     {
         $result = $this->query->$method(...$arguments);
 
         if ($result instanceof EloquentBuilder || $result instanceof QueryBuilder) {
-            throw new \RuntimeException('You cant cache a query. Remember to use ->cache() right before executing the query');
+            throw new RuntimeException('You can\'t cache a query. Remember to use ->cache() right before executing the query.');
         }
 
         return $result;
