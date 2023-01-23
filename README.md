@@ -64,15 +64,6 @@ Post::cacheForever('cache:key')->count();
 
 ## Advanced usage
 
-### Tags
-
-```php
-Post::query()
-    ->where(...)
-    ->cache('post:count')->tags(['posts'])
-    ->count();
-```
-
 ### Different store
 
 ```php
