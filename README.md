@@ -1,8 +1,8 @@
 # Laravel Query Cache
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/juampi92/laravel-query-cache.svg?style=flat-square)](https://packagist.org/packages/juampi92/laravel-query-cache)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/juampi92/laravel-query-cache/run-tests.yml?branch=master)](https://github.com/juampi92/laravel-query-cache/actions?query=workflow%3ATests+branch%3Amaster)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/juampi92/laravel-query-cache/php-cs-fixer.yml?branch=master&label=code%20style)](https://github.com/juampi92/laravel-query-cache/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
+[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/juampi92/laravel-query-cache/run-tests.yml?branch=master&style=flat-square)](https://github.com/juampi92/laravel-query-cache/actions?query=workflow%3ATests+branch%3Amaster)
+[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/juampi92/laravel-query-cache/php-cs-fixer.yml?branch=master&label=code%20style&style=flat-square)](https://github.com/juampi92/laravel-query-cache/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amaster)
 [![Total Downloads](https://img.shields.io/packagist/dt/juampi92/laravel-query-cache.svg?style=flat-square)](https://packagist.org/packages/juampi92/laravel-query-cache)
 
 This package provides a set of macros to cache your Laravel Queries just like Cache::remember.
