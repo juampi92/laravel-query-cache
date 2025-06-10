@@ -21,6 +21,8 @@ You can install the package via composer:
 composer require juampi92/laravel-query-cache
 ```
 
+This package supports Laravel 9 through 11 and requires PHP 8.1 or higher.
+
 That's it! No config or Trait necessary. The package auto-discovery will boot the macros.
 
 ## Usage
